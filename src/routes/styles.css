@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  background: var(--qwik-dark-background);
+  /* background: var(--qwik-dark-background); */
   color: var(--qwik-dark-text);
   overflow-x: hidden;
 }
@@ -80,7 +80,7 @@ ul {
   background: var(--qwik-light-purple);
 }
 .container.container-dark {
-  background: var(--qwik-dark-background);
+  /* background: var(--qwik-dark-background); */
   color: var(--qwik-dark-text);
 }
 .container.container-center {
