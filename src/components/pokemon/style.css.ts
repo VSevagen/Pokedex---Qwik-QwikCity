@@ -16,55 +16,173 @@ export const poketype = style({
 })
 
 export const poketype_grass = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "green",
+  fontSize: "10px",
+  backgroundColor: "#a9ee85",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_ground = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "brown",
+  fontSize: "10px",
+  backgroundColor: "#ffcd82",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_fire = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "red",
+  fontSize: "10px",
+  backgroundColor: "#fc8d48",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_poison = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "purple",
+  fontSize: "10px",
+  backgroundColor: "#C06AED",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_fairy = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "pink",
+  fontSize: "10px",
+  backgroundColor: "#ed6dc7",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_flying = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "yellow",
+  fontSize: "10px",
+  backgroundColor: "#E2D02C",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_water = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "blue",
+  fontSize: "10px",
+  backgroundColor: "#93b0ff",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
 })
 
 export const poketype_normal = style({
-  color: "white",
+  color: "black",
+  opacity: "0.8",
   listStyle: "none",
-  backgroundColor: "brown",
+  fontSize: "10px",
+  backgroundColor: "#baab82",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const poketype_electric = style({
+  color: "black",
+  opacity: "0.8",
+  listStyle: "none",
+  fontSize: "10px",
+  backgroundColor: "#eed535",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const poketype_bug = style({
+  color: "black",
+  opacity: "0.8",
+  listStyle: "none",
+  fontSize: "10px",
+  backgroundColor: "#8cb230",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const poketype_steel = style({
+  color: "black",
+  opacity: "0.8",
+  listStyle: "none",
+  fontSize: "10px",
+  backgroundColor: "#b1b0c7",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const poketype_psychic = style({
+  color: "black",
+  opacity: "0.8",
+  listStyle: "none",
+  fontSize: "10px",
+  backgroundColor: "#5569ae",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const poketype_ice = style({
+  color: "black",
+  opacity: "0.8",
+  listStyle: "none",
+  fontSize: "10px",
+  backgroundColor: "#61cec0",
+  fontWeight: "bold",
+  padding: "10px 5px",
+  borderRadius: "10px",
+  margin: "5px"
+})
+
+export const pokemon_name = style({
+  color: "black",
+  opacity: "0.8",
+  fontSize: "15px",
+  fontWeight: "bold"
 })
 
 export const poketype_container = style({
-  padding: "0px"
+  padding: "0px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center"
 })
 
 export const sprite = style({
@@ -78,4 +196,3 @@ export const pokemon_index = style({
   fontWeight: "bold",
   color: "grey"
 });
-export const pokemon_name = style({});

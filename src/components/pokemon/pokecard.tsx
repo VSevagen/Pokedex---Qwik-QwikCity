@@ -9,9 +9,15 @@ import {pokecard,
         poketype_fairy,
         poketype_flying,
         poketype_normal,
+        poketype_electric,
+        poketype_bug,
+        poketype_steel,
+        poketype_psychic,
+        poketype_ice,
         poketype_container,
         sprite,
         pokemon_index,
+        pokemon_name
 } from "./style.css";
 
 interface Pokemon {
@@ -34,7 +40,12 @@ enum POKEMON_TYPE {
   POISON = poketype_poison as any,
   FAIRY = poketype_fairy as any,
   FLYING = poketype_flying as any,
-  NORMAL = poketype_normal as any
+  NORMAL = poketype_normal as any,
+  ELECTRIC = poketype_electric as any,
+  BUG = poketype_bug as any,
+  STEEL = poketype_steel as any,
+  PSYCHIC = poketype_psychic as any,
+  ICE = poketype_ice as any,
 }
 
 export default component$(({name, url, number}: Pokemon) => {
@@ -69,6 +80,16 @@ export default component$(({name, url, number}: Pokemon) => {
         return POKEMON_TYPE.FAIRY;
       case "flying":
         return POKEMON_TYPE.FLYING;
+      case "electric":
+        return POKEMON_TYPE.ELECTRIC;
+      case "bug":
+        return POKEMON_TYPE.BUG;
+      case "steel":
+        return POKEMON_TYPE.STEEL;
+      case "psychic":
+        return POKEMON_TYPE.PSYCHIC;
+      case "ice":
+        return POKEMON_TYPE.ICE;
       default:
         return POKEMON_TYPE.NORMAL
     }
@@ -79,17 +100,17 @@ export default component$(({name, url, number}: Pokemon) => {
       <Resource
         value={fetchPokemonSprite}
         onPending={() => <p>Loading...</p>}
-        onResolved={(item) => <img class={sprite} src={item}/>}
+        onResolved={(item) => <img width="100" height="100" src={item}/>}
       />
       <p class={pokemon_index}>Nº{number + 1}</p>
-      <p>{name}</p>
+      <p class={pokemon_name}>{name}</p>
       <Resource
         value={fetchPokemonTypes}
         onPending={() => <p>Loading...</p>}
         onResolved={(item) => {
           return (
             <ul class={poketype_container}>
-              {item.map((type) => <li class={determineTypeClass(type.type.name)}>{type.type.name}</li>)}
+              {item.map((type) => <li class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
             </ul>
         )}}
       />
