@@ -1,13 +1,18 @@
 import { style, styled } from 'styled-vanilla-extract/qwik';
 
 export const pokecard = style({
-  width: "300px",
-  height: "210px",
+  width: "250px",
+  height: "150px",
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   color: "black",
   textAlign: "center",
-  margin: "15px",
-  borderRadius: "20px"
+  // margin: "15px",
+  margin: "50px 10px 20px 10px",
+  borderRadius: "20px",
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-end"
 });
 
 export const poketype = style({
@@ -186,8 +191,13 @@ export const poketype_container = style({
 })
 
 export const sprite = style({
-  width: "100px",
-  height: "100px"
+  // position: "absolute"
+})
+
+export const sprite_container = style({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center"
 })
 
 export const pokemon_index = style({

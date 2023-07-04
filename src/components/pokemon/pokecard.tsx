@@ -16,6 +16,7 @@ import {pokecard,
         poketype_ice,
         poketype_container,
         sprite,
+        sprite_container,
         pokemon_index,
         pokemon_name
 } from "./style.css";
@@ -100,7 +101,7 @@ export default component$(({name, url, number}: Pokemon) => {
       <Resource
         value={fetchPokemonSprite}
         onPending={() => <p>Loading...</p>}
-        onResolved={(item) => <img width="100" height="100" src={item}/>}
+        onResolved={(item) => <div class={sprite_container}><img width="100" height="100" src={item}/></div>}
       />
       <p class={pokemon_index}>Nº{number + 1}</p>
       <p class={pokemon_name}>{name}</p>
