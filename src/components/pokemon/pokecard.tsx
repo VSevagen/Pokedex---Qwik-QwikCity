@@ -1,6 +1,5 @@
-import { component$, useSignal, useResource$, Resource, $ } from "@builder.io/qwik";
+import { component$, useResource$, Resource, $ } from "@builder.io/qwik";
 import {pokecard,
-        poketype,
         poketype_grass,
         poketype_water,
         poketype_ground,
@@ -15,11 +14,11 @@ import {pokecard,
         poketype_psychic,
         poketype_ice,
         poketype_container,
-        sprite,
         sprite_container,
         pokemon_index,
         pokemon_name
 } from "./style.css";
+import PokeballLoading from "./pokeballLoading";
 
 interface Pokemon {
   name: string;
@@ -51,18 +50,11 @@ enum POKEMON_TYPE {
 
 export default component$(({name, url, number}: Pokemon) => {
 
-  const fetchPokemonTypes = useResource$( async () => {
-    const data = await fetch(url);
-    const types = await data.json();
-    // return ({types: types.types, sprite: types.sprites.front_default});
-    return types.types as Array<PokemonType>;
-  })
-
-  const fetchPokemonSprite = useResource$( async () => {
-    const data = await fetch(url);
+  const fetchPokemonSprite = useResource$( async ({ track }) => {
+    const signal = track(() => url)
+    const data = await fetch(signal);
     const sprite = await data.json();
-    // return ({types: types.types, sprite: types.sprites.front_default});
-    return sprite.sprites.front_default;
+    return ({sprites: sprite.sprites.front_default, types: sprite.types})
   })
 
   const determineTypeClass = (typeName: string): any => {
@@ -100,20 +92,19 @@ export default component$(({name, url, number}: Pokemon) => {
     <div class={pokecard}>
       <Resource
         value={fetchPokemonSprite}
-        onPending={() => <p>Loading...</p>}
-        onResolved={(item) => <div class={sprite_container}><img width="100" height="100" src={item}/></div>}
-      />
-      <p class={pokemon_index}>Nº{number + 1}</p>
-      <p class={pokemon_name}>{name}</p>
-      <Resource
-        value={fetchPokemonTypes}
-        onPending={() => <p>Loading...</p>}
+        onPending={() => <PokeballLoading />}
         onResolved={(item) => {
           return (
+            <>
+            <div class={sprite_container}><img width="100" height="100" src={item.sprites}/></div>
+            <p class={pokemon_index}>Nº{number + 1}</p>
+            <p class={pokemon_name}>{name}</p>
             <ul class={poketype_container}>
-              {item.map((type) => <li class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
+              {item.types.map((type:any) => <li class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
             </ul>
-        )}}
+            </>
+          )
+        }}
       />
     </div>
   );
