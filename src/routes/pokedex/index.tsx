@@ -83,6 +83,15 @@ export default component$(() => {
                   <p>Base EXP</p>
                   <p>{item.pokemon.base_experience}</p>
                   <p>Weaknesses</p>
+                  <p>Stats</p>
+                  <ul>
+                    {item.pokemon.stats.map((stats: any) =>
+                      <li>
+                        <span>{stats.stat.name}</span>
+                        <span>{stats.base_stat}</span>
+                      </li>
+                    )}
+                  </ul>
                 </>
               )
             }}
