@@ -1,5 +1,4 @@
-import { component$, useStylesScoped$, useSignal, useResource$, Resource, useTask$, useStore, noSerialize } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { component$, useStylesScoped$, useSignal, useResource$, Resource, useStore } from "@builder.io/qwik";
 import Pokecard from "~/components/pokemon/pokecard";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
@@ -12,6 +11,13 @@ export default component$(() => {
   const offset = useSignal(0);
   const initialType = useSignal('https://pokeapi.co/api/v2/type/12/');
   const initialPokemon = useSignal(1);
+  const evoSprites = useStore({
+    initialEvo: "https://pokeapi.co/api/v2/evolution-chain/1/",
+    baseForm: "bulbasaur",
+    firstEvo: "ivysaur",
+    secondEvo: "venusaur"
+  },
+  {deep: true});
   
   const fetchPokemon = useResource$(async ({ track }) => {
     const signal = track(() => offset.value);
@@ -41,6 +47,42 @@ export default component$(() => {
     const damage = await damageInfo.json();
     return damage;
   })
+
+  const fetchEvolutionChain = useResource$(async ({ track }) => {
+    const evoSignal = track(() => evoSprites.initialEvo)
+    const baseFormSpriteSignal = track(() => evoSprites.baseForm);
+    const firstSpriteSignal = track(() => evoSprites.firstEvo);
+    const secondSpriteSignal = track(() => evoSprites.secondEvo);
+    let baseFormSprite;
+    let firstSprite;
+    let secondSprite;
+
+    const evolutionRes = await fetch(evoSignal);
+    const evolution = await evolutionRes.json();
+
+    if(baseFormSpriteSignal) {
+      const baseFormSpriteRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${baseFormSpriteSignal}`);
+      baseFormSprite = await baseFormSpriteRes.json();
+    }
+
+    if(firstSpriteSignal) {
+      const firstSpriteRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${firstSpriteSignal}`);
+      firstSprite = await firstSpriteRes.json();
+    }
+
+    if(secondSpriteSignal) {
+      const secondSpriteRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${secondSpriteSignal}`);
+      secondSprite = await secondSpriteRes.json();
+    }
+
+    return ({
+      evolution: evolution,
+      baseForm: baseFormSprite,
+      firstSprite: firstSprite,
+      secondSprite: secondSprite
+    });
+  })
+
 
   return (
     <>
@@ -85,6 +127,7 @@ export default component$(() => {
             value={fetchFirstPokemon}
             onResolved={(item) => {
               initialType.value = item.pokemon.types[0].type.url;
+              evoSprites.initialEvo = item.description.evolution_chain.url;
               return (
                 <>
                   <p>{item.pokemon.name}</p>
@@ -118,6 +161,24 @@ export default component$(() => {
                       </li>
                     )}
                   </ul>
+                  <p>Evolution</p>
+                  <Resource
+                    value={fetchEvolutionChain}
+                    onResolved={(item) => {
+                      evoSprites.baseForm = item.evolution.chain.species.name;
+                      evoSprites.firstEvo = item.evolution.chain?.evolves_to?.[0]?.species?.name;
+                      evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name;
+                      return (
+                        <>
+                          <img width="96" height="96" src={item.baseForm.sprites.front_default}/>
+                          <img width="96" height="96" src={item?.firstSprite?.sprites?.front_default}/>
+                          <p>{item?.evolution?.chain?.evolves_to?.[0]?.species?.name}</p>
+                          {item?.secondSprite?.sprites?.front_default ? <img width="96" height="96" src={item?.secondSprite?.sprites?.front_default}/> : <></>}
+                          <p>{item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name}</p>
+                        </>
+                      )
+                    }}
+                  />
                   <button onClick$={() => {
                     initialPokemon.value -= 1;
                   }}
