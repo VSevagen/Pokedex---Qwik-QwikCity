@@ -1,4 +1,4 @@
-import { component$, useStylesScoped$, useSignal, useResource$, Resource, useTask$ } from "@builder.io/qwik";
+import { component$, useStylesScoped$, useSignal, useResource$, Resource, useTask$, useStore, noSerialize } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import Pokecard from "~/components/pokemon/pokecard";
 import styles from './pokedex.css?inline';
@@ -10,6 +10,8 @@ export default component$(() => {
   useStylesScoped$(styles);
 
   const offset = useSignal(0);
+  const initialType = useSignal('https://pokeapi.co/api/v2/type/12/');
+  const initialPokemon = useSignal(1);
   
   const fetchPokemon = useResource$(async ({ track }) => {
     const signal = track(() => offset.value);
@@ -18,13 +20,26 @@ export default component$(() => {
     return pokemon;
   })
 
-  const fetchFirstPokemon = useResource$(async () => {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/1`);
+  const fetchFirstPokemon = useResource$(async ({ track }) => {
+    const signal = track(() => initialPokemon.value);
+
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${signal}`);
     const pokemon = await res.json();
 
-    const descriptionRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/1/`);
+    const descriptionRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${signal}`);
     const description = await descriptionRes.json()
-    return ({pokemon: pokemon, description: description});
+
+    return ({
+      pokemon: pokemon,
+      description: description,
+    });
+  })
+
+  const fetchFirstDamage = useResource$(async ({ track }) => {
+    const signal = track(() => initialType.value);
+    const damageInfo = await fetch(signal);
+    const damage = await damageInfo.json();
+    return damage;
   })
 
   return (
@@ -69,6 +84,7 @@ export default component$(() => {
           <Resource 
             value={fetchFirstPokemon}
             onResolved={(item) => {
+              initialType.value = item.pokemon.types[0].type.url;
               return (
                 <>
                   <p>{item.pokemon.name}</p>
@@ -83,6 +99,16 @@ export default component$(() => {
                   <p>Base EXP</p>
                   <p>{item.pokemon.base_experience}</p>
                   <p>Weaknesses</p>
+                  <Resource
+                    value={fetchFirstDamage}
+                    onResolved={(item) => {
+                      return (
+                        <ul>
+                          {item.damage_relations.double_damage_from.map((damage: any) => <li>{damage.name}</li>)}
+                        </ul>
+                      )
+                    }}
+                  />
                   <p>Stats</p>
                   <ul>
                     {item.pokemon.stats.map((stats: any) =>
@@ -92,6 +118,13 @@ export default component$(() => {
                       </li>
                     )}
                   </ul>
+                  <button onClick$={() => {
+                    initialPokemon.value -= 1;
+                  }}
+                  >Prev</button>
+                  <button onClick$={() => {
+                    initialPokemon.value += 1;
+                  }}>Next</button>
                 </>
               )
             }}
