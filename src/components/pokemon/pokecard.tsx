@@ -19,6 +19,7 @@ import {pokecard,
         pokemon_name
 } from "./style.css";
 import PokeballLoading from "./pokeballLoading";
+import PokemonType from "./pokemonType";
 
 interface Pokemon {
   name: string;
@@ -99,9 +100,7 @@ export default component$(({name, url, number}: Pokemon) => {
             <div class={sprite_container}><img width="100" height="100" src={item.sprites}/></div>
             <p class={pokemon_index}>Nº{number + 1}</p>
             <p class={pokemon_name}>{name}</p>
-            <ul class={poketype_container}>
-              {item.types.map((type:any) => <li class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
-            </ul>
+            <PokemonType item={item}/>
             </>
           )
         }}
