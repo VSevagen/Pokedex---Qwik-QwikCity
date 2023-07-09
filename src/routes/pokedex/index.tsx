@@ -1,9 +1,10 @@
 import { component$, useStylesScoped$, useSignal, useResource$, Resource, useStore } from "@builder.io/qwik";
 import Pokecard from "~/components/pokemon/pokecard";
+import PokemonType from "~/components/pokemon/pokemonType";
+import Weakness from "~/components/pokemon/weakness";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
 import Right from "~/media/right.png?jsx";
-import Bottom from "~/media/bottom.png?jsx";
 
 export default component$(() => {
   useStylesScoped$(styles);
@@ -83,6 +84,44 @@ export default component$(() => {
     });
   })
 
+  const determineStatLabel = (label: string) => {
+    switch(label) {
+      case "hp":
+        return "HP";
+      case "attack":
+        return "ATK";
+      case "defense":
+        return "DEF";
+      case "special-attack":
+        return "SpA";
+      case "special-defense":
+        return "SpD";
+      case "speed":
+        return "SPD";
+      default:
+        return label;
+    }
+  }
+
+  const determineStatClass = (label: string) => {
+    switch(label) {
+      case "hp":
+        return "stats-hp";
+      case "attack":
+        return "stats-attack";
+      case "defense":
+        return "stats-defense";
+      case "special-attack":
+        return "stats-spa";
+      case "special-defense":
+        return "stats-spd";
+      case "speed":
+        return "stats-speed";
+      default:
+        return label;
+    }
+  }
+
 
   return (
     <>
@@ -128,54 +167,88 @@ export default component$(() => {
             onResolved={(item) => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
+              const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
               return (
-                <>
-                  <p>{item.pokemon.name}</p>
-                  <ul>{item.pokemon.types.map((type: any) => <li>{type.type.name}</li>)}</ul>
+                <section class="pokemon_main">
+                  <img width="200" height="200" src={item.pokemon.sprites.front_default}/>
+                  <p class="pokemon_main-name">{item.pokemon.name.charAt(0).toUpperCase() + item.pokemon.name.slice(1)}</p>
+                  <p class="pokemon_main-genera">{pokemonGenera.genus}</p>
+                  <PokemonType item={item.pokemon}/>
+                  <p class="pokemon_main-desc">POKEDEX ENTRY</p>
                   <p>{item.description.flavor_text_entries[0].flavor_text}</p>
-                  <p>Abilities</p>
-                  <ul>{item.pokemon.abilities.map((ability: any) => <li>{ability.ability.name}</li>)}</ul>
-                  <p>Height</p>
-                  <p>{item.pokemon.height}</p>
-                  <p>Weight</p>
-                  <p>{item.pokemon.weight}</p>
-                  <p>Base EXP</p>
-                  <p>{item.pokemon.base_experience}</p>
-                  <p>Weaknesses</p>
-                  <Resource
-                    value={fetchFirstDamage}
-                    onResolved={(item) => {
-                      return (
-                        <ul>
-                          {item.damage_relations.double_damage_from.map((damage: any) => <li>{damage.name}</li>)}
-                        </ul>
-                      )
-                    }}
-                  />
-                  <p>Stats</p>
-                  <ul>
+                  <p class="pokemon_main-desc">ABILITIES</p>
+                  <ul class="pokemon_main-ability-container">
+                    {item.pokemon.abilities.map((ability: any) => 
+                      <li class="pokemon_main-ability">{ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)}</li>
+                    )}
+                  </ul>
+                  <div class="pokemon_main-first-stats">
+                    <section>
+                      <p class="pokemon_main-desc">HEIGHT</p>
+                      <p class="pokemon_main-weight">{item.pokemon.height/10}m</p>
+                    </section>
+                    <section>
+                      <p class="pokemon_main-desc">WEIGHT</p>
+                      <p class="pokemon_main-weight">{item.pokemon.weight/10}Kg</p>
+                    </section>
+                  </div>
+                  <div class="pokemon_main-first-stats">
+                  <section class="weakness_section">
+                      <p class="pokemon_main-desc">WEAKNESS</p>
+                      <Resource
+                        value={fetchFirstDamage}
+                        onResolved={(item) => {
+                          return (
+                            <Weakness item={item}/>
+                          )
+                        }}
+                      />
+                    </section>
+                    <section>
+                      <p class="pokemon_main-desc">BASE EXP</p>
+                      <p class="pokemon_main-weight">{item.pokemon.base_experience}</p>
+                    </section>
+                  </div>
+                  <p class="pokemon_main-desc">STATS</p>
+                  <ul class="pokemon_main-real-stats">
                     {item.pokemon.stats.map((stats: any) =>
-                      <li>
-                        <span>{stats.stat.name}</span>
-                        <span>{stats.base_stat}</span>
+                      <li class="stats">
+                        <span class={`stats-name ${determineStatClass(stats.stat.name)}`}>{determineStatLabel(stats.stat.name)}</span>
+                        <span class="stats-value">{stats.base_stat}</span>
                       </li>
                     )}
                   </ul>
-                  <p>Evolution</p>
+                  <p class="pokemon_main-desc">EVOLUTION</p>
                   <Resource
                     value={fetchEvolutionChain}
                     onResolved={(item) => {
                       evoSprites.baseForm = item.evolution.chain.species.name;
                       evoSprites.firstEvo = item.evolution.chain?.evolves_to?.[0]?.species?.name;
                       evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name;
+                      console.log(item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level);
                       return (
-                        <>
+                        <div class="pokemon_main-evolution">
                           <img width="96" height="96" src={item.baseForm.sprites.front_default}/>
+                          {item?.evolution?.chain?.evolves_to?.[0]?.evolution_details?.[0]?.min_level ?
+                            <p class="evolution_levelup">Lvl {item?.evolution?.chain?.evolves_to?.[0]?.evolution_details?.[0]?.min_level}</p>
+                            :
+                            <p class="evolution_levelup">Lvl</p>
+                          }
                           <img width="96" height="96" src={item?.firstSprite?.sprites?.front_default}/>
-                          <p>{item?.evolution?.chain?.evolves_to?.[0]?.species?.name}</p>
-                          {item?.secondSprite?.sprites?.front_default ? <img width="96" height="96" src={item?.secondSprite?.sprites?.front_default}/> : <></>}
-                          <p>{item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name}</p>
-                        </>
+                          {item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level ? 
+                            <p class="evolution_levelup">Lvl {item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level}</p>
+                            :
+                            item?.secondSprite?.sprites?.front_default ?
+                            <p class="evolution_levelup">Lvl</p>
+                            :
+                            <></>
+                          }
+                          {item?.secondSprite?.sprites?.front_default ? 
+                            <img width="96" height="96" src={item?.secondSprite?.sprites?.front_default}/> 
+                            :
+                            <></>
+                          }
+                        </div>
                       )
                     }}
                   />
@@ -186,7 +259,7 @@ export default component$(() => {
                   <button onClick$={() => {
                     initialPokemon.value += 1;
                   }}>Next</button>
-                </>
+                </section>
               )
             }}
           />
