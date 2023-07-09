@@ -22,7 +22,7 @@ export default component$(() => {
   
   const fetchPokemon = useResource$(async ({ track }) => {
     const signal = track(() => offset.value);
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=12&offset=${signal}`);
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=16&offset=${signal}`);
     const pokemon = await res.json();
     return pokemon;
   })
@@ -124,7 +124,7 @@ export default component$(() => {
 
 
   return (
-    <>
+    <div class="main">
       <div>
         <Resource 
           value={fetchPokemon}
@@ -170,12 +170,14 @@ export default component$(() => {
               const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
               return (
                 <section class="pokemon_main">
-                  <img width="200" height="200" src={item.pokemon.sprites.front_default}/>
+                  <div class="pokemon_main-pokemon-container">
+                    <img class="pokemon_main-pokemon" width="200" height="200" src={item.pokemon.sprites.front_default}/>
+                  </div>
                   <p class="pokemon_main-name">{item.pokemon.name.charAt(0).toUpperCase() + item.pokemon.name.slice(1)}</p>
                   <p class="pokemon_main-genera">{pokemonGenera.genus}</p>
                   <PokemonType item={item.pokemon}/>
                   <p class="pokemon_main-desc">POKEDEX ENTRY</p>
-                  <p>{item.description.flavor_text_entries[0].flavor_text}</p>
+                  <p class="pokemon_main-flavor">{item.description.flavor_text_entries[0].flavor_text}</p>
                   <p class="pokemon_main-desc">ABILITIES</p>
                   <ul class="pokemon_main-ability-container">
                     {item.pokemon.abilities.map((ability: any) => 
@@ -225,7 +227,6 @@ export default component$(() => {
                       evoSprites.baseForm = item.evolution.chain.species.name;
                       evoSprites.firstEvo = item.evolution.chain?.evolves_to?.[0]?.species?.name;
                       evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name;
-                      console.log(item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level);
                       return (
                         <div class="pokemon_main-evolution">
                           <img width="96" height="96" src={item.baseForm.sprites.front_default}/>
@@ -252,18 +253,31 @@ export default component$(() => {
                       )
                     }}
                   />
-                  <button onClick$={() => {
-                    initialPokemon.value -= 1;
-                  }}
-                  >Prev</button>
-                  <button onClick$={() => {
-                    initialPokemon.value += 1;
-                  }}>Next</button>
+                  {initialPokemon.value !== 1 ?
+                    <button
+                      class="prev_button"
+                      onClick$={() => {
+                        initialPokemon.value -= 1;
+                      }}
+                    >
+                      <Left />
+                    </button>
+                    :
+                    <></>
+                  }
+                  <button
+                    class="next_button"
+                    onClick$={() => {
+                      initialPokemon.value += 1;
+                    }}
+                  >
+                    <Right />
+                  </button>
                 </section>
               )
             }}
           />
       </div>
-    </>
+    </div>
 )}
 );
