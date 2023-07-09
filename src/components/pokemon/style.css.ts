@@ -1,4 +1,4 @@
-import { style, styled } from 'styled-vanilla-extract/qwik';
+import { style } from 'styled-vanilla-extract/qwik';
 
 export const pokecard = style({
   width: "250px",
@@ -6,7 +6,6 @@ export const pokecard = style({
   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   color: "black",
   textAlign: "center",
-  // margin: "15px",
   margin: "50px 10px 20px 10px",
   borderRadius: "20px",
   position: "relative",
@@ -206,3 +205,16 @@ export const pokemon_index = style({
   fontWeight: "bold",
   color: "grey"
 });
+
+export const weakness_item = style({
+  listStyle: "none",
+  marginLeft: "2px",
+  marginRight: "2px"
+});
+export const weakness_container = style({
+  // padding: "0px",
+  display: "flex",
+  backgroundColor: "#f5f8fa",
+  padding: "10px 20px",
+  borderRadius: "30px"
+})
