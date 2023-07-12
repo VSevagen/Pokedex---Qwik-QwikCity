@@ -13,7 +13,6 @@ import {pokecard,
         poketype_steel,
         poketype_psychic,
         poketype_ice,
-        poketype_container,
         sprite_container,
         pokemon_index,
         pokemon_name

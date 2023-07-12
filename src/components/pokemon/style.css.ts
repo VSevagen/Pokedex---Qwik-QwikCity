@@ -190,7 +190,6 @@ export const poketype_container = style({
 })
 
 export const sprite = style({
-  // position: "absolute"
 })
 
 export const sprite_container = style({
@@ -212,7 +211,6 @@ export const weakness_item = style({
   marginRight: "2px"
 });
 export const weakness_container = style({
-  // padding: "0px",
   display: "flex",
   backgroundColor: "#f5f8fa",
   padding: "10px 20px",
