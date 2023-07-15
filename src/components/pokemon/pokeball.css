@@ -7,6 +7,10 @@
 
 }
 
+.evolution-loading-override {
+  top: 50%;
+}
+
 .wrapper.bottom-poke {
   position: relative;
   bottom: -10px;

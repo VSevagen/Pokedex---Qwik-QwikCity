@@ -214,5 +214,6 @@ export const weakness_container = style({
   display: "flex",
   backgroundColor: "#f5f8fa",
   padding: "10px 20px",
-  borderRadius: "30px"
+  borderRadius: "30px",
+  justifyContent: "center"
 })
