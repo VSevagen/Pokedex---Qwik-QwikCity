@@ -1,7 +1,10 @@
 import { component$, useStylesScoped$, useSignal, useResource$, Resource, useStore } from "@builder.io/qwik";
 import Pokecard from "~/components/pokemon/pokecard";
+import PokeballLoading from "~/components/pokemon/pokeballLoading";
 import PokemonType from "~/components/pokemon/pokemonType";
+import Evolution from "~/components/pokemon/evolution";
 import Weakness from "~/components/pokemon/weakness";
+import Pagination from "~/components/pokemon/pagination";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
 import Right from "~/media/right.png?jsx";
@@ -143,20 +146,7 @@ export default component$(() => {
             onResolved={(item) => {
               const totalPages = Math.ceil(item.count/12);
               const pages = [... new Array(totalPages)].map((_, key) => key + 1);
-              return (
-                <div class="pagination_container">
-                  <select class="pagination_select" name="pages" onChange$={(event: any) => offset.value = (event.target.value - 1) * 12}>
-                    {pages.map((item) => <option value={item} selected={item === (offset.value/12) + 1 ? true : false}>{item.toString()}</option>)}
-                  </select>
-                  <p class="pagination_current"> of {totalPages} pages</p>
-                  <button onClick$={() => offset.value-=12}>
-                    <Left />
-                  </button>
-                  <button onClick$={() => offset.value+=12}>
-                    <Right />
-                  </button>
-                </div>
-              )
+              return <Pagination pages={pages} offset={offset} totalPages={totalPages}/>
             }}
           />
         </div>
@@ -168,6 +158,7 @@ export default component$(() => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
               const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
+
               return (
                 <section class="pokemon_main">
                   <div class="pokemon_main-pokemon-container">
@@ -195,7 +186,7 @@ export default component$(() => {
                     </section>
                   </div>
                   <div class="pokemon_main-first-stats">
-                  <section class="weakness_section">
+                    <section class="weakness_section">
                       <p class="pokemon_main-desc">WEAKNESS</p>
                       <Resource
                         value={fetchFirstDamage}
@@ -223,35 +214,15 @@ export default component$(() => {
                   <p class="pokemon_main-desc">EVOLUTION</p>
                   <Resource
                     value={fetchEvolutionChain}
-                    onResolved={(item) => {
+                    onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
+                    onResolved={(item) =>
+                    {
                       evoSprites.baseForm = item.evolution.chain.species.name;
                       evoSprites.firstEvo = item.evolution.chain?.evolves_to?.[0]?.species?.name;
                       evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name;
-                      return (
-                        <div class="pokemon_main-evolution">
-                          <img width="96" height="96" src={item.baseForm.sprites.front_default}/>
-                          {item?.evolution?.chain?.evolves_to?.[0]?.evolution_details?.[0]?.min_level ?
-                            <p class="evolution_levelup">Lvl {item?.evolution?.chain?.evolves_to?.[0]?.evolution_details?.[0]?.min_level}</p>
-                            :
-                            <p class="evolution_levelup">Lvl</p>
-                          }
-                          <img width="96" height="96" src={item?.firstSprite?.sprites?.front_default}/>
-                          {item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level ? 
-                            <p class="evolution_levelup">Lvl {item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.evolution_details?.[0]?.min_level}</p>
-                            :
-                            item?.secondSprite?.sprites?.front_default ?
-                            <p class="evolution_levelup">Lvl</p>
-                            :
-                            <></>
-                          }
-                          {item?.secondSprite?.sprites?.front_default ? 
-                            <img width="96" height="96" src={item?.secondSprite?.sprites?.front_default}/> 
-                            :
-                            <></>
-                          }
-                        </div>
-                      )
-                    }}
+                      return <Evolution item={item} />
+                    }
+                  }
                   />
                   {initialPokemon.value !== 1 ?
                     <button
