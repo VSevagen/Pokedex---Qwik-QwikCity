@@ -5,6 +5,7 @@ import PokemonType from "~/components/pokemon/pokemonType";
 import Evolution from "~/components/pokemon/evolution";
 import Weakness from "~/components/pokemon/weakness";
 import Pagination from "~/components/pokemon/pagination";
+import Searchbar from "~/components/pokemon/searchbar";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
 import Right from "~/media/right.png?jsx";
@@ -131,14 +132,31 @@ export default component$(() => {
       <div>
         <Resource 
           value={fetchPokemon}
+          onPending={() => {
+            const emptyCards = [...Array(16).keys()];
+            return (
+              <>
+                <Searchbar initialPokemon={initialPokemon}/>
+                <div class="pokedex">
+                  {emptyCards.map(() => (
+                    <div class="empty-card animated-background"></div>
+                  ))}
+                </div>
+              </>
+            )
+          }}
           onResolved={(item) => {
             return (
-              <div class="pokedex">
-                {item.results.map((item: any, key: number) => (
-                  <Pokecard key={key} {...item} number={offset.value + key}/>
-                ))}
-              </div>
-            )}}
+              <>
+                <Searchbar initialPokemon={initialPokemon}/>
+                <div class="pokedex">
+                  {item.results.map((item: any, key: number) => (
+                    <Pokecard key={key} {...item} number={offset.value + key}/>
+                  ))}
+                </div>
+              </>
+            )
+          }}
         />
         <div class="pagination_wrapper">
         <Resource 
@@ -154,6 +172,7 @@ export default component$(() => {
       <div>
           <Resource 
             value={fetchFirstPokemon}
+            onPending={() => <div class="pokemon_main_loading"><PokeballLoading className="evolution-loading-override" /></div>}
             onResolved={(item) => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
@@ -190,6 +209,7 @@ export default component$(() => {
                       <p class="pokemon_main-desc">WEAKNESS</p>
                       <Resource
                         value={fetchFirstDamage}
+                        onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
                         onResolved={(item) => {
                           return (
                             <Weakness item={item}/>
@@ -217,9 +237,9 @@ export default component$(() => {
                     onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
                     onResolved={(item) =>
                     {
-                      evoSprites.baseForm = item.evolution.chain.species.name;
-                      evoSprites.firstEvo = item.evolution.chain?.evolves_to?.[0]?.species?.name;
-                      evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0].evolves_to?.[0]?.species?.name;
+                      evoSprites.baseForm = item?.evolution?.chain?.species?.name;
+                      evoSprites.firstEvo = item?.evolution.chain?.evolves_to?.[0]?.species?.name;
+                      evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0]?.evolves_to?.[0]?.species?.name;
                       return <Evolution item={item} />
                     }
                   }
