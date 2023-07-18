@@ -172,12 +172,12 @@ export default component$(() => {
       <div>
           <Resource 
             value={fetchFirstPokemon}
+            onRejected={() => <div class="pokemon_main_loading"><p>Pokemon not found</p></div>}
             onPending={() => <div class="pokemon_main_loading"><PokeballLoading className="evolution-loading-override" /></div>}
             onResolved={(item) => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
               const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
-
               return (
                 <section class="pokemon_main">
                   <div class="pokemon_main-pokemon-container">

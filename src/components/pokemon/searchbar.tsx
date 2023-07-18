@@ -3,9 +3,13 @@ import Pokeball from "/pokeball.png"
 import styles from "./index.css?inline";
 
 const fetchPokemonByName = $(async (name?: string) => {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  const pokemon = await res.json();
-  return pokemon;
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+    const pokemon = await res.json();
+    return pokemon;
+  } catch (error) {
+    // Handle error properly
+  }
 });
 
 interface SearchBar {
