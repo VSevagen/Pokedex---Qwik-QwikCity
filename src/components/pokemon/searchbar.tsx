@@ -1,22 +1,25 @@
-import { component$, $, useSignal, useStylesScoped$} from "@builder.io/qwik";
+import { component$, $, useSignal, useStylesScoped$, Signal} from "@builder.io/qwik";
 import Pokeball from "/pokeball.png"
 import styles from "./index.css?inline";
 
-const fetchPokemonByName = $(async (name?: string) => {
+const fetchPokemonByName = $(async (name?: string, errorSignal?: any) => {
   try {
+    errorSignal.value = false;
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
     const pokemon = await res.json();
     return pokemon;
   } catch (error) {
     // Handle error properly
+    errorSignal.value = true;
   }
 });
 
 interface SearchBar {
   initialPokemon: any;
+  errorSignal?: Signal<Boolean>
 }
 
-export default component$(({initialPokemon}: SearchBar) => {
+export default component$(({initialPokemon, errorSignal}: SearchBar) => {
   const searchTerm = useSignal<String | null>(null);
   useStylesScoped$(styles);
   return (
@@ -28,7 +31,7 @@ export default component$(({initialPokemon}: SearchBar) => {
         <button
           class="submit-button"
           onClick$={ async () => {
-            const data = await fetchPokemonByName(searchTerm.value?.toLowerCase());
+            const data = await fetchPokemonByName(searchTerm.value?.toLowerCase(), errorSignal);
             initialPokemon.value = data.id;
           }}
         >

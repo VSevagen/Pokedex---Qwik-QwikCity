@@ -84,3 +84,11 @@
 .pagination_select:hover {
   background-color: #ebecf2;
 }
+
+.error-modal {
+  height: 50%;
+}
+
+.failed-text {
+  padding-bottom: 90px;
+}

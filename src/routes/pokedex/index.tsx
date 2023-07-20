@@ -6,6 +6,7 @@ import Evolution from "~/components/pokemon/evolution";
 import Weakness from "~/components/pokemon/weakness";
 import Pagination from "~/components/pokemon/pagination";
 import Searchbar from "~/components/pokemon/searchbar";
+import Error from "~/components/pokemon/error";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
 import Right from "~/media/right.png?jsx";
@@ -15,6 +16,7 @@ export default component$(() => {
 
   const offset = useSignal(0);
   const initialType = useSignal('https://pokeapi.co/api/v2/type/12/');
+  const errorSignal = useSignal(false);
   const initialPokemon = useSignal(1);
   const evoSprites = useStore({
     initialEvo: "https://pokeapi.co/api/v2/evolution-chain/1/",
@@ -148,7 +150,7 @@ export default component$(() => {
           onResolved={(item) => {
             return (
               <>
-                <Searchbar initialPokemon={initialPokemon}/>
+                <Searchbar initialPokemon={initialPokemon} errorSignal={errorSignal}/>
                 <div class="pokedex">
                   {item.results.map((item: any, key: number) => (
                     <Pokecard key={key} {...item} number={offset.value + key}/>
@@ -180,90 +182,94 @@ export default component$(() => {
               const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
               return (
                 <section class="pokemon_main">
-                  <div class="pokemon_main-pokemon-container">
-                    <img class="pokemon_main-pokemon" width="200" height="200" src={item.pokemon.sprites.front_default}/>
-                  </div>
-                  <p class="pokemon_main-name">{item.pokemon.name.charAt(0).toUpperCase() + item.pokemon.name.slice(1)}</p>
-                  <p class="pokemon_main-genera">{pokemonGenera.genus}</p>
-                  <PokemonType item={item.pokemon}/>
-                  <p class="pokemon_main-desc">POKEDEX ENTRY</p>
-                  <p class="pokemon_main-flavor">{item.description.flavor_text_entries[0].flavor_text}</p>
-                  <p class="pokemon_main-desc">ABILITIES</p>
-                  <ul class="pokemon_main-ability-container">
-                    {item.pokemon.abilities.map((ability: any) => 
-                      <li class="pokemon_main-ability">{ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)}</li>
-                    )}
-                  </ul>
-                  <div class="pokemon_main-first-stats">
-                    <section>
-                      <p class="pokemon_main-desc">HEIGHT</p>
-                      <p class="pokemon_main-weight">{item.pokemon.height/10}m</p>
-                    </section>
-                    <section>
-                      <p class="pokemon_main-desc">WEIGHT</p>
-                      <p class="pokemon_main-weight">{item.pokemon.weight/10}Kg</p>
-                    </section>
-                  </div>
-                  <div class="pokemon_main-first-stats">
-                    <section class="weakness_section">
-                      <p class="pokemon_main-desc">WEAKNESS</p>
-                      <Resource
-                        value={fetchFirstDamage}
-                        onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
-                        onResolved={(item) => {
-                          return (
-                            <Weakness item={item}/>
-                          )
-                        }}
-                      />
-                    </section>
-                    <section>
-                      <p class="pokemon_main-desc">BASE EXP</p>
-                      <p class="pokemon_main-weight">{item.pokemon.base_experience}</p>
-                    </section>
-                  </div>
-                  <p class="pokemon_main-desc">STATS</p>
-                  <ul class="pokemon_main-real-stats">
-                    {item.pokemon.stats.map((stats: any) =>
-                      <li class="stats">
-                        <span class={`stats-name ${determineStatClass(stats.stat.name)}`}>{determineStatLabel(stats.stat.name)}</span>
-                        <span class="stats-value">{stats.base_stat}</span>
-                      </li>
-                    )}
-                  </ul>
-                  <p class="pokemon_main-desc">EVOLUTION</p>
-                  <Resource
-                    value={fetchEvolutionChain}
-                    onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
-                    onResolved={(item) =>
-                    {
-                      evoSprites.baseForm = item?.evolution?.chain?.species?.name;
-                      evoSprites.firstEvo = item?.evolution.chain?.evolves_to?.[0]?.species?.name;
-                      evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0]?.evolves_to?.[0]?.species?.name;
-                      return <Evolution item={item} />
+                  {errorSignal.value ? <Error /> :
+                  <>
+                    <div class="pokemon_main-pokemon-container">
+                      <img class="pokemon_main-pokemon" width="200" height="200" src={item.pokemon.sprites.front_default}/>
+                    </div>
+                    <p class="pokemon_main-name">{item.pokemon.name.charAt(0).toUpperCase() + item.pokemon.name.slice(1)}</p>
+                    <p class="pokemon_main-genera">{pokemonGenera.genus}</p>
+                    <PokemonType item={item.pokemon}/>
+                    <p class="pokemon_main-desc">POKEDEX ENTRY</p>
+                    <p class="pokemon_main-flavor">{item.description.flavor_text_entries[0].flavor_text}</p>
+                    <p class="pokemon_main-desc">ABILITIES</p>
+                    <ul class="pokemon_main-ability-container">
+                      {item.pokemon.abilities.map((ability: any) => 
+                        <li class="pokemon_main-ability">{ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1)}</li>
+                      )}
+                    </ul>
+                    <div class="pokemon_main-first-stats">
+                      <section>
+                        <p class="pokemon_main-desc">HEIGHT</p>
+                        <p class="pokemon_main-weight">{item.pokemon.height/10}m</p>
+                      </section>
+                      <section>
+                        <p class="pokemon_main-desc">WEIGHT</p>
+                        <p class="pokemon_main-weight">{item.pokemon.weight/10}Kg</p>
+                      </section>
+                    </div>
+                    <div class="pokemon_main-first-stats">
+                      <section class="weakness_section">
+                        <p class="pokemon_main-desc">WEAKNESS</p>
+                        <Resource
+                          value={fetchFirstDamage}
+                          onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
+                          onResolved={(item) => {
+                            return (
+                              <Weakness item={item}/>
+                            )
+                          }}
+                        />
+                      </section>
+                      <section>
+                        <p class="pokemon_main-desc">BASE EXP</p>
+                        <p class="pokemon_main-weight">{item.pokemon.base_experience}</p>
+                      </section>
+                    </div>
+                    <p class="pokemon_main-desc">STATS</p>
+                    <ul class="pokemon_main-real-stats">
+                      {item.pokemon.stats.map((stats: any) =>
+                        <li class="stats">
+                          <span class={`stats-name ${determineStatClass(stats.stat.name)}`}>{determineStatLabel(stats.stat.name)}</span>
+                          <span class="stats-value">{stats.base_stat}</span>
+                        </li>
+                      )}
+                    </ul>
+                    <p class="pokemon_main-desc">EVOLUTION</p>
+                    <Resource
+                      value={fetchEvolutionChain}
+                      onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
+                      onResolved={(item) =>
+                      {
+                        evoSprites.baseForm = item?.evolution?.chain?.species?.name;
+                        evoSprites.firstEvo = item?.evolution.chain?.evolves_to?.[0]?.species?.name;
+                        evoSprites.secondEvo = item?.evolution?.chain?.evolves_to?.[0]?.evolves_to?.[0]?.species?.name;
+                        return <Evolution item={item} />
+                      }
                     }
-                  }
-                  />
-                  {initialPokemon.value !== 1 ?
+                    />
+                    {initialPokemon.value !== 1 ?
+                      <button
+                        class="prev_button"
+                        onClick$={() => {
+                          initialPokemon.value -= 1;
+                        }}
+                      >
+                        <Left />
+                      </button>
+                      :
+                      <></>
+                    }
                     <button
-                      class="prev_button"
+                      class="next_button"
                       onClick$={() => {
-                        initialPokemon.value -= 1;
+                        initialPokemon.value += 1;
                       }}
                     >
-                      <Left />
+                      <Right />
                     </button>
-                    :
-                    <></>
-                  }
-                  <button
-                    class="next_button"
-                    onClick$={() => {
-                      initialPokemon.value += 1;
-                    }}
-                  >
-                    <Right />
-                  </button>
+                  </>
+                }
                 </section>
               )
             }}
