@@ -92,3 +92,11 @@
 .failed-text {
   padding-bottom: 90px;
 }
+
+.pokeball-search-button {
+  transition: all 1s;
+}
+
+.pokeball-search-button:hover {
+  transform: rotate(180deg);
+}

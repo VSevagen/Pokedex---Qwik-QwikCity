@@ -35,7 +35,7 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
             initialPokemon.value = data.id;
           }}
         >
-          <img width="30"  height="30" src={Pokeball} alt="pokeball image"/>
+          <img class="pokeball-search-button" width="30" height="30" src={Pokeball} alt="pokeball image"/>
         </button>
       </section>
     </>
