@@ -18,6 +18,7 @@ import {pokecard,
         pokemon_name
 } from "./style.css";
 import PokeballLoading from "./pokeballLoading";
+import Error from "./error";
 import PokemonType from "./pokemonType";
 
 interface Pokemon {
@@ -92,6 +93,7 @@ export default component$(({name, url, number}: Pokemon) => {
     <div class={pokecard}>
       <Resource
         value={fetchPokemonSprite}
+        onRejected={() => <Error classOverride="pokecard-failed" />}
         onPending={() => <PokeballLoading />}
         onResolved={(item) => {
           return (

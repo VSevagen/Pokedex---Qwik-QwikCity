@@ -180,6 +180,8 @@ export default component$(() => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
               const pokemonGenera = item.description.genera.find((language: any) => language.language.name === "en");
+              const pokedexEntry = item.description.flavor_text_entries.find((language: any) => language.language.name === "en");
+
               return (
                 <section class="pokemon_main">
                   {errorSignal.value ? <Error /> :
@@ -191,7 +193,7 @@ export default component$(() => {
                     <p class="pokemon_main-genera">{pokemonGenera.genus}</p>
                     <PokemonType item={item.pokemon}/>
                     <p class="pokemon_main-desc">POKEDEX ENTRY</p>
-                    <p class="pokemon_main-flavor">{item.description.flavor_text_entries[0].flavor_text}</p>
+                    <p class="pokemon_main-flavor">{pokedexEntry.flavor_text || item.description.flavor_text_entries[0].flavor_text}</p>
                     <p class="pokemon_main-desc">ABILITIES</p>
                     <ul class="pokemon_main-ability-container">
                       {item.pokemon.abilities.map((ability: any) => 

@@ -89,6 +89,14 @@
   height: 50%;
 }
 
+.error-modal.pokecard-failed {
+  height: 100%;
+}
+
+.error-modal.pokecard-failed .failed-text {
+  padding: 0;
+}
+
 .failed-text {
   padding-bottom: 90px;
 }
