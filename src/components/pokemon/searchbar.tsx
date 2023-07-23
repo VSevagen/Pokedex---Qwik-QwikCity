@@ -1,4 +1,4 @@
-import { component$, $, useSignal, useStylesScoped$, Signal} from "@builder.io/qwik";
+import { component$, $, useSignal, useStylesScoped$ } from "@builder.io/qwik";
 import Pokeball from "/pokeball.png"
 import styles from "./index.css?inline";
 
@@ -16,7 +16,7 @@ const fetchPokemonByName = $(async (name?: string, errorSignal?: any) => {
 
 interface SearchBar {
   initialPokemon: any;
-  errorSignal?: Signal<Boolean>
+  errorSignal?: any;
 }
 
 export default component$(({initialPokemon, errorSignal}: SearchBar) => {

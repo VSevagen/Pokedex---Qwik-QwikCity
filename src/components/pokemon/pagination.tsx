@@ -15,7 +15,7 @@ export default component$(({pages, offset, totalPages}: Pagination) => {
   return (
     <div class="pagination_container">
       <select class="pagination_select" name="pages" onChange$={(event: any) => offset.value = (event.target.value - 1) * 16}>
-        {pages.map((item: any) => <option value={item} selected={item === (offset.value/16) + 1 ? true : false}>{item.toString()}</option>)}
+        {pages.map((item: any, index: number) => <option key={index} value={item} selected={item === (offset.value/16) + 1 ? true : false}>{item.toString()}</option>)}
       </select>
       <p class="pagination_current"> of {totalPages} pages</p>
       { offset.value > 0 &&

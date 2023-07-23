@@ -1,4 +1,4 @@
-import { component$, useResource$, Resource, $ } from "@builder.io/qwik";
+import { component$, useResource$, Resource } from "@builder.io/qwik";
 import {pokecard,
         sprite_container,
         pokemon_index,

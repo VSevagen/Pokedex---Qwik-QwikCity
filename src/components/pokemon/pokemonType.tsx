@@ -71,7 +71,7 @@ export default component$(({item}: Pokemon) => {
 
   return (
     <ul class={poketype_container}>
-      {item.types.map((type:any) => <li class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
+      {item.types.map((type:any, index: any) => <li key={index} class={determineTypeClass(type.type.name)}>{type.type.name.toUpperCase()}</li>)}
     </ul>
   );
 });
