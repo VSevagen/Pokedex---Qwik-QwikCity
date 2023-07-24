@@ -217,3 +217,8 @@ export const weakness_container = style({
   borderRadius: "30px",
   justifyContent: "center"
 })
+
+export const weakness_image = style({
+  width: "20",
+  height: "20"
+})

@@ -102,9 +102,21 @@
 }
 
 .pokeball-search-button {
+  width: 30px;
+  height: 30px;
   transition: all 1s;
 }
 
 .pokeball-search-button:hover {
   transform: rotate(180deg);
+}
+
+.weakness__image {
+  width: 20px;
+  height: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
 }

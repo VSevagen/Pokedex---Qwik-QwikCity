@@ -1,47 +1,50 @@
-import { component$ } from "@builder.io/qwik";
-import Dark from '/Dark_Type_Icon.png';
-import Electric from '/Electric_Type_Icon.png';
-import Fairy from '/Fairy_Type_Icon.png';
-import Fighting from '/Fighting_Type_Icon.png';
-import Ground from '/Ground_Type_Icon.png';
-import Ice from '/Ice_Type_Icon.png';
-import Normal from '/Normal_Type_Icon.png';
-import Poison from '/Poison_Type_Icon.png';
-import Psychic from '/Psychic_Type_Icon.png';
-import Rock from '/Rock_Type_Icon.png';
-import Steel from '/Steel_Type_Icon.png';
-import Water from '/Water_Type_Icon.png';
-import Bug from '/Bug_icon.png';
-import Fire from '/Fire_icon.png';
-import Flying from '/Flying_icon.png';
-import Grass from '/Grass_Icon.png';
+import { component$, useStylesScoped$ } from "@builder.io/qwik";
+import Dark from '~/media/Dark_Type_Icon.png?jsx';
+import Electric from '~/media/Electric_Type_Icon.png?jsx';
+import Fairy from '~/media/Fairy_Type_Icon.png?jsx';
+import Fighting from '~/media/Fighting_Type_Icon.png?jsx';
+import Ground from '~/media/Ground_Type_Icon.png?jsx';
+import Ice from '~/media/Ice_Type_Icon.png?jsx';
+import Normal from '~/media/Normal_Type_Icon.png?jsx';
+import Poison from '~/media/Poison_Type_Icon.png?jsx';
+import Psychic from '~/media/Psychic_Type_Icon.png?jsx';
+import Rock from '~/media/Rock_Type_Icon.png?jsx';
+import Steel from '~/media/Steel_Type_Icon.png?jsx';
+import Water from '~/media/Water_Type_Icon.png?jsx';
+import Bug from '~/media/Bug_icon.png?jsx';
+import Fire from '~/media/Fire_icon.png?jsx';
+import Flying from '~/media/Flying_icon.png?jsx';
+import Grass from '~/media/Grass_Icon.png?jsx';
+import styles from './index.css?inline';
 
 import {
   weakness_container,
-  weakness_item
+  weakness_item,
+  weakness_image
 } from "./style.css";
 
 
 enum POKEMON_TYPE {
-  GRASS = Grass as any,
-  WATER = Water as any,
-  GROUND = Ground as any,
-  FIRE = Fire as any,
-  POISON = Poison as any,
-  FAIRY = Fairy as any,
-  FLYING = Flying as any,
-  NORMAL = Normal as any,
-  ELECTRIC = Electric as any,
-  BUG = Bug as any,
-  STEEL = Steel as any,
-  PSYCHIC = Psychic as any,
-  ICE = Ice as any,
-  ROCK = Rock as any,
-  DARK = Dark as any,
-  FIGHTING = Fighting as any
+  GRASS = <Grass class="weakness__image"/> as any,
+  WATER = <Water class="weakness__image"/> as any,
+  GROUND = <Ground class="weakness__image"/> as any,
+  FIRE = <Fire class="weakness__image"/> as any,
+  POISON = <Poison class="weakness__image"/> as any,
+  FAIRY = <Fairy class="weakness__image"/> as any,
+  FLYING = <Flying class="weakness__image"/> as any,
+  NORMAL = <Normal class="weakness__image"/> as any,
+  ELECTRIC = <Electric class="weakness__image"/> as any,
+  BUG = <Bug class="weakness__image"/> as any,
+  STEEL = <Steel class="weakness__image"/> as any,
+  PSYCHIC = <Psychic class="weakness__image"/> as any,
+  ICE = <Ice class="weakness__image"/> as any,
+  ROCK = <Rock class="weakness__image"/> as any,
+  DARK = <Dark class="weakness__image"/> as any,
+  FIGHTING = <Fighting class="weakness__image"/> as any
 }
 
 export default component$(({item}: any) => {
+  useStylesScoped$(styles)
 
   const determineTypeClass = (typeName: string): any => {
     switch(typeName) {
@@ -78,7 +81,9 @@ export default component$(({item}: any) => {
     <ul class={weakness_container}>
       {item.damage_relations.double_damage_from.map((type:any) => 
         <li class={weakness_item}>
-          <img width="20" height="20" src={determineTypeClass(type.name)}/>
+          {determineTypeClass(type.name)}
+          {/* <Grass class="weakness__image" /> */}
+          {/* <img width="20" height="20" src={determineTypeClass(type.name)}/> */}
         </li>
       )}
     </ul>

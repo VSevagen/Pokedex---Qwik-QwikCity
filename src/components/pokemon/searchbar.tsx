@@ -1,5 +1,5 @@
 import { component$, $, useSignal, useStylesScoped$ } from "@builder.io/qwik";
-import Pokeball from "/pokeball.png"
+import Pokeball from "~/media/pokeball.png?jsx"
 import styles from "./index.css?inline";
 
 const fetchPokemonByName = $(async (name?: string, errorSignal?: any) => {
@@ -35,7 +35,8 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
             initialPokemon.value = data.id;
           }}
         >
-          <img class="pokeball-search-button" width="30" height="30" src={Pokeball} alt="pokeball image"/>
+          {/* <img class="pokeball-search-button" width="30" height="30" src={Pokeball} alt="pokeball image"/> */}
+          <Pokeball class="pokeball-search-button" />
         </button>
       </section>
     </>
