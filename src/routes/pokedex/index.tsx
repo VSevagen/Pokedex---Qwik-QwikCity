@@ -140,8 +140,8 @@ export default component$(() => {
               <>
                 <Searchbar initialPokemon={initialPokemon}/>
                 <div class="pokedex">
-                  {emptyCards.map(() => (
-                    <div class="empty-card animated-background"></div>
+                  {emptyCards.map((index: number) => (
+                    <div key={index} class="empty-card animated-background"></div>
                   ))}
                 </div>
               </>
@@ -175,7 +175,7 @@ export default component$(() => {
           <Resource 
             value={fetchFirstPokemon}
             onRejected={() => <div class="pokemon_main_loading"><p>Pokemon not found</p></div>}
-            onPending={() => <div class="pokemon_main_loading"><PokeballLoading className="evolution-loading-override" /></div>}
+            onPending={() => <div class="pokemon_main_loading"><PokeballLoading cssClass="evolution-loading-override" /></div>}
             onResolved={(item) => {
               initialType.value = item.pokemon.types[0].type.url;
               evoSprites.initialEvo = item.description.evolution_chain.url;
@@ -215,7 +215,7 @@ export default component$(() => {
                         <p class="pokemon_main-desc">WEAKNESS</p>
                         <Resource
                           value={fetchFirstDamage}
-                          onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
+                          onPending={() => <div class="evolution-loading"><PokeballLoading cssClass="evolution-loading-override" /></div>}
                           onResolved={(item) => {
                             return (
                               <Weakness item={item}/>
@@ -240,7 +240,7 @@ export default component$(() => {
                     <p class="pokemon_main-desc">EVOLUTION</p>
                     <Resource
                       value={fetchEvolutionChain}
-                      onPending={() => <div class="evolution-loading"><PokeballLoading className="evolution-loading-override" /></div>}
+                      onPending={() => <div class="evolution-loading"><PokeballLoading cssClass="evolution-loading-override" /></div>}
                       onResolved={(item) =>
                       {
                         evoSprites.baseForm = item?.evolution?.chain?.species?.name;
