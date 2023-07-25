@@ -3,13 +3,13 @@ import styles from './pokeball.css?inline';
 
 interface PokeballLoading {
   bottom?: boolean;
-  className?: string;
+  cssClass?: string;
 }
 
-export default component$(({bottom = false, className}: PokeballLoading) => {
+export default component$(({bottom = false, cssClass}: PokeballLoading) => {
   useStylesScoped$(styles)
   return (
-    <div class={`wrapper ${className} ${bottom ? "bottom-poke" : ""}`}>
+    <div class={`wrapper ${cssClass} ${bottom ? "bottom-poke" : ""}`}>
       <div class="pokeball">
       </div>
     </div>

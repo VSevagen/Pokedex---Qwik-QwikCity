@@ -20,7 +20,6 @@ import styles from './index.css?inline';
 import {
   weakness_container,
   weakness_item,
-  weakness_image
 } from "./style.css";
 
 
@@ -79,11 +78,9 @@ export default component$(({item}: any) => {
 
   return (
     <ul class={weakness_container}>
-      {item.damage_relations.double_damage_from.map((type:any) => 
-        <li class={weakness_item}>
+      {item.damage_relations.double_damage_from.map((type:any, index: number) => 
+        <li key={index} class={weakness_item}>
           {determineTypeClass(type.name)}
-          {/* <Grass class="weakness__image" /> */}
-          {/* <img width="20" height="20" src={determineTypeClass(type.name)}/> */}
         </li>
       )}
     </ul>
