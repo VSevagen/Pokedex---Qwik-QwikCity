@@ -22,7 +22,7 @@ export default component$(() => {
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
-        <script dangerouslySetInnerHTML={`
+        <script type="application/javascript" dangerouslySetInnerHTML={`
           if (window.matchMedia("(prefers-color-scheme: dark)").matches &&
             localStorage.theme !== 'light') {
             localStorage.setItem("theme", 'dark');
