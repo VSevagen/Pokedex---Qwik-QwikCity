@@ -1,9 +1,16 @@
 .main {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin-left: 50px;
-  margin-right: 50px;
+  flex-direction: column;
+  margin: 0;
+}
+
+@media(min-width: 992px) {
+  .main {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
 }
 
 .evolution-loading {
@@ -12,20 +19,34 @@
 }
 
 .pokedex {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  @media(min-width: 992px) {
+  display: none;
+}
+
+@media(min-width: 992px) {
+  .pokedex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     width: 1281px;
   }
 }
 
 .pagination_wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-right: 35px;
+  display: none;
+}
+
+@media(min-width: 992px) {
+  .pagination_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 35px;
+  }
+}
+
+.search-wrapper {
+  margin-top: 10px;
 }
 
 .pokemon_main {
