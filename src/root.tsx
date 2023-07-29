@@ -22,6 +22,16 @@ export default component$(() => {
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
+        <script dangerouslySetInnerHTML={`
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches &&
+            localStorage.theme !== 'light') {
+            localStorage.setItem("theme", 'dark');
+          } else {
+            localStorage.setItem("theme", 'light');
+          }
+
+          document.documentElement.className = localStorage.theme || 'dark';
+        `} />
         <ServiceWorkerRegister />
       </head>
       <body lang="en">

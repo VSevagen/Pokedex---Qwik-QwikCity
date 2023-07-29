@@ -14,6 +14,10 @@
   --qwik-dirty-black: #1d2033;
   --qwik-dark-background: #151934;
   --qwik-dark-text: #ffffff;
+
+  --darkmode-background: #222831;
+  --darkmode-card-background: #393E46;
+  --darkmode-card-text: #EEEEEE;
 }
 
 html {
@@ -27,6 +31,29 @@ html {
   /* font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+}
+
+html.dark {
+  background-color: var(--darkmode-background);
+
+  .pokemon_main {
+    background-color: var(--darkmode-card-background);
+  }
+
+  .pokemon_main .pokemon_main-name,
+  .pokemon_main .pokemon_main-genera,
+  .pokemon_main .pokemon_main-desc,
+  .pokemon_main .pokemon_main-flavor {
+    color: var(--darkmode-card-text);
+  }
+
+  .pokedex div{
+    background-color: var(--darkmode-card-background);
+  }
+
+  .pokedex p {
+    color: var(--darkmode-card-text);
+  }
 }
 
 body {

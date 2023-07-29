@@ -38,7 +38,7 @@ export default component$(({name, url, number}: Pokemon) => {
         onResolved={(item) => {
           return (
             <>
-            <div class={sprite_container}><img width="100" height="100" src={item.sprites}/></div>
+            <section class={sprite_container}><img width="100" height="100" src={item.sprites}/></section>
             <p class={pokemon_index}>Nº{number + 1}</p>
             <p class={pokemon_name}>{name.charAt(0).toUpperCase() + name.slice(1)}</p>
             <PokemonType item={item}/>

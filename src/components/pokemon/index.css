@@ -20,6 +20,7 @@
   border-radius: 5px;
   width: max-content;
   border: 1px solid #e3e3ea;
+  background-color: white;
 }
 
 .pagination_container button {
