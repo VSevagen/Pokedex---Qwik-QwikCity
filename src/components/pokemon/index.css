@@ -60,8 +60,14 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 50px;
   position: relative;
+  margin-top: 10px;
+}
+
+@media(min-width: 992px) {
+  .search-wrapper {
+    margin-top: 50px;
+  } 
 }
 
 .submit-button {
@@ -69,8 +75,14 @@
   background-color: unset;
   cursor: pointer;
   position: absolute;
-  right: 50px;
+  right: 20px;
   top: 10px;
+}
+
+@media(min-width: 992px) {
+  .submit-button {
+    right: 50px;
+  }
 }
 
 .pagination_select {
