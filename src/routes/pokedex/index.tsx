@@ -1,11 +1,19 @@
-import { component$, useStylesScoped$, useSignal, useResource$, Resource, useStore } from "@builder.io/qwik";
+import {
+  component$,
+  useStylesScoped$,
+  useSignal,
+  useResource$,
+  Resource,
+  useStore,
+  useVisibleTask$
+} from "@builder.io/qwik";
 import Pokecard from "~/components/pokemon/pokecard";
 import PokeballLoading from "~/components/pokemon/pokeballLoading";
 import PokemonType from "~/components/pokemon/pokemonType";
 import Evolution from "~/components/pokemon/evolution";
 import Weakness from "~/components/pokemon/weakness";
 import Pagination from "~/components/pokemon/pagination";
-import Searchbar from "~/components/pokemon/searchbar";
+import Searchbar, { isMobile } from "~/components/pokemon/searchbar";
 import Error from "~/components/pokemon/error";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
@@ -15,6 +23,7 @@ export default component$(() => {
   useStylesScoped$(styles);
 
   const offset = useSignal(0);
+  const limit = useSignal(16);
   const initialType = useSignal('https://pokeapi.co/api/v2/type/12/');
   const errorSignal = useSignal(false);
   const initialPokemon = useSignal(1);
@@ -25,10 +34,17 @@ export default component$(() => {
     secondEvo: "venusaur"
   },
   {deep: true});
+
+  useVisibleTask$( async () => {
+    if(await isMobile()) {
+      limit.value = 10;
+    }
+  })
   
   const fetchPokemon = useResource$(async ({ track }) => {
     const signal = track(() => offset.value);
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=16&offset=${signal}`);
+    const limitSignal = track(() => limit.value);
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limitSignal}&offset=${signal}`);
     const pokemon = await res.json();
     return pokemon;
   })
