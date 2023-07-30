@@ -72,9 +72,13 @@
 }
 
 .button-wrapper {
+  display: flex;
   position: absolute;
   top: 10px;
-  right: 50px;
+  right: 15px;
+  @media(min-width: 992px) {
+    right: 55px;
+  }
 }
 
 .submit-button {
@@ -131,3 +135,50 @@
   width: 100px;
   height: 100px;
 }
+
+.theme {
+  position: relative;
+  width: 50px;
+  height: 30px;
+  border-radius: 50px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 5px;
+  background-color: #FFD369;
+  transition: background-color 1s ease;
+
+
+
+  .theme-button {
+    background-color: white;
+    position: absolute;
+    width: 38%;
+    height: 70%;
+    border-radius: 50%;
+    border: 1px solid black;
+    left: 5px;
+    transition: all 1s ease;
+
+    .theme-icon {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .theme-button.theme-button-dark {
+    transition: all 1s ease;
+    /* justify-content: flex-end;  */
+    left: 30px;
+  }
+}
+
+.theme.theme-dark {
+  background-color: #303f5a;
+}
+
+/* .theme.theme-button-dark {
+  transition: justify-content 1s ease;
+  justify-content: flex-end;
+} */

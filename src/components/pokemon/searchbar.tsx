@@ -1,6 +1,15 @@
-import { component$, $, useSignal, useStylesScoped$ } from "@builder.io/qwik";
-import Pokeball from "~/media/pokeball.png?jsx"
+import {
+  component$,
+  useSignal,
+  useStylesScoped$,
+  useContext,
+  $
+} from "@builder.io/qwik";
+import Pokeball from "~/media/pokeball.png?jsx";
+import Light from "~/media/light.png?jsx";
+import Moon from "~/media/moon.png?jsx";
 import styles from "./index.css?inline";
+import { ThemeContext } from "~/root";
 
 export const isMobile = $(() => {
   if(window && typeof window !== "undefined") {
@@ -26,7 +35,9 @@ interface SearchBar {
 
 export default component$(({initialPokemon, errorSignal}: SearchBar) => {
   const searchTerm = useSignal('');
+  const theme = useContext(ThemeContext);
   useStylesScoped$(styles);
+
   return (
     <>
       <section class="search-wrapper">
@@ -40,20 +51,6 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
         />
         <div class="button-wrapper">
           <button
-            onClick$={() => {
-              // TO REWORK. HANDLE THROUGH CONTEXT
-              if(localStorage?.getItem('theme') === "dark") {
-                localStorage?.setItem('theme', 'light');
-                document.documentElement.className = localStorage.theme
-              } else {
-                localStorage?.setItem('theme', 'dark');
-                document.documentElement.className = localStorage.theme
-              }
-            }}
-          >
-            Toggle theme
-          </button>
-          <button
             class="submit-button"
             onClick$={ async () => {
               const data = await fetchPokemonByName(searchTerm.value?.toLowerCase(), errorSignal);
@@ -64,6 +61,20 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
           >
             <Pokeball class="pokeball-search-button" />
           </button>
+          <div class={`theme ${theme.value === 'dark' ? "theme-dark" : ""}`}>
+            <div
+              onClick$={() => {
+                if(theme.value === 'dark') {
+                  theme.value = 'light';
+                } else {
+                  theme.value = 'dark';
+                }
+              }}
+              class={`theme-button ${theme.value === 'dark' ? "theme-button-dark" : ""}`}
+            >
+              { theme.value === 'dark' ? <Moon class="theme-icon"/> : <Light class="theme-icon" />}
+            </div>
+          </div>
         </div>
       </section>
     </>
