@@ -33,7 +33,7 @@ html {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
 }
 
-html.dark {
+body.dark {
   background-color: var(--darkmode-background);
 
   .pokemon_main {

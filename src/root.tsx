@@ -1,4 +1,11 @@
-import { component$ } from "@builder.io/qwik";
+import {
+  component$,
+  useSignal,
+  useContextProvider,
+  createContextId,
+  Signal,
+  useVisibleTask$
+} from "@builder.io/qwik";
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -8,7 +15,16 @@ import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
 
+export const ThemeContext = createContextId<Signal<string>>('light');
+
 export default component$(() => {
+  const theme = useSignal('light');
+  useContextProvider(ThemeContext, theme);
+
+  useVisibleTask$(({ track }) => {
+    track(() => theme.value);
+    document.documentElement.className = theme.value;
+  })
   /**
    * The root of a QwikCity site always start with the <QwikCityProvider> component,
    * immediately followed by the document's <head> and <body>.
@@ -34,7 +50,7 @@ export default component$(() => {
         `} />
         <ServiceWorkerRegister />
       </head>
-      <body lang="en">
+      <body lang="en" class={theme.value === 'dark' ? 'dark' : 'light'}>
         <RouterOutlet />
       </body>
     </QwikCityProvider>
