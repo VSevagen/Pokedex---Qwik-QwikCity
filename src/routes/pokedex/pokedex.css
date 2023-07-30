@@ -19,7 +19,12 @@
 }
 
 .pokedex {
-  display: none;
+  /* display: none; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100vw;
+  margin: 0 auto;
 }
 
 @media(min-width: 992px) {
@@ -265,13 +270,16 @@
 }
 
 .empty-card {
-  width: 250px;
+  width: 200px;
   height: 150px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: black;
   margin: 50px 10px 20px 10px;
   border-radius: 20px;
   position: relative;
+  @media(min-width: 992px) {
+    width: 250px;
+  }
 }
 
 @keyframes placeHolderShimmer {

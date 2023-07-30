@@ -1,3 +1,22 @@
+.pokecard {
+  width: 190px;
+  height: 150px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  color: black;
+  text-align: center;
+  margin: 50px 0px 20px 5px;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  @media(min-width: 992px) {
+    width: 250px;
+    margin: 50px 10px 20px 10px;
+  }
+}
+
 .pokemon_main-evolution {
   display: flex;
   flex-direction: row;
@@ -152,6 +171,7 @@
 
 
   .theme-button {
+    cursor: pointer;
     background-color: white;
     position: absolute;
     width: 38%;
