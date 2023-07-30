@@ -1,5 +1,5 @@
-import { component$, useResource$, Resource } from "@builder.io/qwik";
-import {pokecard,
+import { component$, useResource$, Resource, useStylesScoped$ } from "@builder.io/qwik";
+import {
         sprite_container,
         pokemon_index,
         pokemon_name
@@ -7,7 +7,7 @@ import {pokecard,
 import PokeballLoading from "./pokeballLoading";
 import Error from "./error";
 import PokemonType from "./pokemonType";
-
+import styles from './index.css?inline';
 interface Pokemon {
   name: string;
   number: number;
@@ -21,7 +21,7 @@ interface PokemonType {
 }
 
 export default component$(({name, url, number}: Pokemon) => {
-
+  useStylesScoped$(styles)
   const fetchPokemonSprite = useResource$( async ({ track }) => {
     const signal = track(() => url)
     const data = await fetch(signal);
@@ -30,7 +30,7 @@ export default component$(({name, url, number}: Pokemon) => {
   })
 
   return (
-    <div class={pokecard}>
+    <div class="pokecard">
       <Resource
         value={fetchPokemonSprite}
         onRejected={() => <Error classOverride="pokecard-failed" />}

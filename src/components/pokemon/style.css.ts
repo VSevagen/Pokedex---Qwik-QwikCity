@@ -1,18 +1,18 @@
 import { style } from 'styled-vanilla-extract/qwik';
 
-export const pokecard = style({
-  width: "250px",
-  height: "150px",
-  boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  color: "black",
-  textAlign: "center",
-  margin: "50px 10px 20px 10px",
-  borderRadius: "20px",
-  position: "relative",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "flex-end"
-});
+// export const pokecard = style({
+//   width: "250px",
+//   height: "150px",
+//   boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+//   color: "black",
+//   textAlign: "center",
+//   margin: "50px 10px 20px 10px",
+//   borderRadius: "20px",
+//   position: "relative",
+//   display: "flex",
+//   flexDirection: "column",
+//   justifyContent: "flex-end"
+// });
 
 export const poketype = style({
   color: "black",
