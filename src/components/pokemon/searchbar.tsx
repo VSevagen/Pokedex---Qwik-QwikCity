@@ -17,6 +17,12 @@ export const isMobile = $(() => {
   }
 })
 
+export const scrollToElement = $((element: Element) => {
+  if(element && typeof element !== "undefined") {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+})
+
 export const fetchPokemonByName = $(async (name?: string, errorSignal?: any) => {
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
@@ -54,7 +60,10 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
             class="submit-button"
             onClick$={ async () => {
               const data = await fetchPokemonByName(searchTerm.value?.toLowerCase(), errorSignal);
-              await isMobile() && window.scrollTo({ top: 100, behavior: "smooth"})
+              if(await isMobile()) {
+                const pokecard = document?.getElementsByClassName('pokemon_main')?.[0];
+                scrollToElement(pokecard);
+              }
               initialPokemon.value = data.id;
               errorSignal.value = false;
             }}
@@ -63,6 +72,7 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
           </button>
           <div class={`theme ${theme.value === 'dark' ? "theme-dark" : ""}`}>
             <div
+              class={`theme-button ${theme.value === 'dark' ? "theme-button-dark" : ""}`}
               onClick$={() => {
                 if(theme.value === 'dark') {
                   theme.value = 'light';
@@ -70,7 +80,6 @@ export default component$(({initialPokemon, errorSignal}: SearchBar) => {
                   theme.value = 'dark';
                 }
               }}
-              class={`theme-button ${theme.value === 'dark' ? "theme-button-dark" : ""}`}
             >
               { theme.value === 'dark' ? <Moon class="theme-icon"/> : <Light class="theme-icon" />}
             </div>
