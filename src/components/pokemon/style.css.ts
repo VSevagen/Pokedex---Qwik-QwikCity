@@ -179,7 +179,9 @@ export const pokemon_name = style({
   color: "black",
   opacity: "0.8",
   fontSize: "15px",
-  fontWeight: "bold"
+  fontWeight: "bold",
+  marginTop: "0px",
+  marginBottom: "0px"
 })
 
 export const poketype_container = style({
