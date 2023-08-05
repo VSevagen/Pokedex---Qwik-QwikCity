@@ -54,6 +54,11 @@ body.dark {
   .pokedex p {
     color: var(--darkmode-card-text);
   }
+
+  .animated-background {
+    animation-duration: 5s;
+    background: linear-gradient(to right, #393e46 6%, #9c9797 35%, #393e46 64%);
+  }
 }
 
 body {

@@ -57,7 +57,6 @@
 
 .pokemon_main {
   width: auto;
-  /* height: 100%; */
   margin: 0 auto;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -277,15 +276,17 @@
 }
 
 .empty-card {
-  width: 200px;
+  width: 100px;
   height: 150px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  color: black;
-  margin: 50px 10px 20px 10px;
+  box-shadow: #64646f33 0 7px 29px;
+  color: #000;
+  text-align: center;
+  margin: 50px 0 20px 5px;
   border-radius: 20px;
   position: relative;
   @media(min-width: 992px) {
     width: 250px;
+    margin: 50px 10px 20px 10px;
   }
 }
 
