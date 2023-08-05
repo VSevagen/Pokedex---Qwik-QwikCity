@@ -17,6 +17,10 @@
   }
 }
 
+.pokecard-loading {
+  width: 100px;
+}
+
 .pokemon_main-evolution {
   display: flex;
   flex-direction: row;
@@ -189,7 +193,6 @@
 
   .theme-button.theme-button-dark {
     transition: all 1s ease;
-    /* justify-content: flex-end;  */
     left: 30px;
   }
 }
@@ -197,8 +200,3 @@
 .theme.theme-dark {
   background-color: #303f5a;
 }
-
-/* .theme.theme-button-dark {
-  transition: justify-content 1s ease;
-  justify-content: flex-end;
-} */

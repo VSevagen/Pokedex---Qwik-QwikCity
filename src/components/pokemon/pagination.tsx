@@ -3,6 +3,8 @@ import Left from "~/media/left.png?jsx";
 import Right from "~/media/right.png?jsx";
 import styles from './index.css?inline';
 
+import { isMobile } from "./searchbar";
+
 interface Pagination {
   pages: any;
   offset: any;
@@ -19,11 +21,21 @@ export default component$(({pages, offset, totalPages}: Pagination) => {
       </select>
       <p class="pagination_current"> of {totalPages} pages</p>
       { offset.value > 0 &&
-        <button onClick$={() => offset.value-=16 }>
+        <button onClick$={async () => {
+          if(await isMobile()) {
+            window.scrollTo({ top: 0, behavior: "smooth"})
+          }
+          offset.value-=16;
+        }}>
           <Left />
         </button>
       }
-      <button onClick$={() => offset.value+=16}>
+      <button onClick$={async () => {
+        if(await isMobile()) {
+          window.scrollTo({ top: 0, behavior: "smooth"})
+        }
+        offset.value+=16;
+      }}>
         <Right />
       </button>
     </div>

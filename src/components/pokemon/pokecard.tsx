@@ -34,7 +34,7 @@ export default component$(({name, url, number}: Pokemon) => {
       <Resource
         value={fetchPokemonSprite}
         onRejected={() => <Error classOverride="pokecard-failed" />}
-        onPending={() => <PokeballLoading />}
+        onPending={() => <div class="pokecard-loading"><PokeballLoading /></div>}
         onResolved={(item) => {
           return (
             <>
