@@ -168,7 +168,10 @@ export default component$(() => {
                 <Searchbar initialPokemon={initialPokemon}/>
                 <div class="pokedex">
                   {emptyCards.map((index: number) => (
-                    <div key={index} class="empty-card animated-background"></div>
+                    <div
+                      key={index}
+                      class="empty-card animated-background"
+                    ></div>
                   ))}
                 </div>
               </>
@@ -180,7 +183,12 @@ export default component$(() => {
                 <Searchbar initialPokemon={initialPokemon} errorSignal={errorSignal}/>
                 <div class="pokedex">
                   {item.results.map((item: any, key: number) => (
-                    <Pokecard key={key} {...item} number={offset.value + key}/>
+                    <Pokecard
+                      key={key}
+                      number={offset.value + key}
+                      {...item}
+                      initialPokemon={initialPokemon}
+                    />
                   ))}
                 </div>
               </>

@@ -1,5 +1,6 @@
 .pokecard {
   width: auto;
+  cursor: pointer;
   height: 150px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: black;
@@ -15,6 +16,10 @@
     width: 250px;
     margin: 50px 10px 20px 10px;
   }
+}
+
+.pokecard:hover {
+  background-color: #4d535d;
 }
 
 .pokecard-loading {
@@ -78,6 +83,7 @@
   position: relative;
   font-weight: bold;
   font-family: 'Victor Mono', monospace;
+  font-size: 18px;
 }
 
 .search-wrapper {

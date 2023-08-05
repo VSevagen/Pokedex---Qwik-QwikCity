@@ -18,7 +18,7 @@ import "./global.css";
 export const ThemeContext = createContextId<Signal<string>>('light');
 
 export default component$(() => {
-  const theme = useSignal('light');
+  const theme = useSignal('dark');
   useContextProvider(ThemeContext, theme);
 
   useVisibleTask$(({ track }) => {
