@@ -83,4 +83,7 @@ html {
 body {
   padding: 0;
   line-height: inherit;
+  @media(max-width: 992px) {
+    width: 100vw;
+  }
 }
