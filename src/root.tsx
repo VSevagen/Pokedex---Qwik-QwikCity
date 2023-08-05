@@ -24,7 +24,7 @@ export default component$(() => {
   useVisibleTask$(({ track }) => {
     track(() => theme.value);
     document.documentElement.className = theme.value;
-  })
+  }, {strategy: "document-ready"});
   /**
    * The root of a QwikCity site always start with the <QwikCityProvider> component,
    * immediately followed by the document's <head> and <body>.
@@ -37,6 +37,7 @@ export default component$(() => {
       <head>
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <RouterHead />
         <script type="application/javascript" dangerouslySetInnerHTML={`
           if (window.matchMedia("(prefers-color-scheme: dark)").matches &&
