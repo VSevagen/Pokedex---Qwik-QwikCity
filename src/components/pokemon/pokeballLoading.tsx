@@ -1,5 +1,5 @@
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import styles from './pokeball.css?inline';
+import styles from './index.css?inline';
 
 interface PokeballLoading {
   bottom?: boolean;
