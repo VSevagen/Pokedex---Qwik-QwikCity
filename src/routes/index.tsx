@@ -6,7 +6,6 @@ import {
   useResource$,
   Resource,
   useStore,
-  useVisibleTask$
 } from "@builder.io/qwik";
 import Pokecard from "~/components/pokemon/pokecard";
 import PokeballLoading from "~/components/pokemon/pokeballLoading";
@@ -14,7 +13,7 @@ import PokemonType from "~/components/pokemon/pokemonType";
 import Evolution from "~/components/pokemon/evolution";
 import Weakness from "~/components/pokemon/weakness";
 import Pagination from "~/components/pokemon/pagination";
-import Searchbar, { isMobile } from "~/components/pokemon/searchbar";
+import Searchbar from "~/components/pokemon/searchbar";
 import Error from "~/components/pokemon/error";
 import styles from './pokedex.css?inline';
 import Left from "~/media/left.png?jsx";
@@ -36,11 +35,18 @@ export default component$(() => {
   },
   {deep: true});
 
-  useVisibleTask$( async () => {
-    if(await isMobile()) {
-      limit.value = 10;
-    }
-  })
+  // useVisibleTask$( async () => {
+  //   if(await isMobile()) {
+  //     limit.value = 10;
+  //   }
+  // }, { strategy: 'document-ready' })
+
+  // useTask$( async ({ track }) => {
+  //   track(() => isMobile);
+  //   if(isBrowser && await isMobile()) {
+  //     limit.value = 10;
+  //   };
+  // })
   
   const fetchPokemon = useResource$(async ({ track }) => {
     const signal = track(() => offset.value);
@@ -52,24 +58,28 @@ export default component$(() => {
 
   const fetchFirstPokemon = useResource$(async ({ track }) => {
     const signal = track(() => initialPokemon.value);
+    const damageSignal = track(() => initialType.value);
+    let pokemon;
+    let description;
+    let damage;
 
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${signal}`);
-    const pokemon = await res.json();
+    if(signal) {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${signal}`);
+      const descriptionRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${signal}`);
+      pokemon = await res.json();
+      description = await descriptionRes.json()
+    }
 
-    const descriptionRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${signal}`);
-    const description = await descriptionRes.json()
+    if(damageSignal) {
+      const damageInfo = await fetch(damageSignal);
+      damage = await damageInfo.json();
+    }
 
     return ({
       pokemon: pokemon,
       description: description,
+      damage: damage
     });
-  })
-
-  const fetchFirstDamage = useResource$(async ({ track }) => {
-    const signal = track(() => initialType.value);
-    const damageInfo = await fetch(signal);
-    const damage = await damageInfo.json();
-    return damage;
   })
 
   const fetchEvolutionChain = useResource$(async ({ track }) => {
@@ -230,15 +240,7 @@ export default component$(() => {
                     <div class="pokemon_main-first-stats">
                       <section class="weakness_section">
                         <p class="pokemon_main-desc">WEAKNESS</p>
-                        <Resource
-                          value={fetchFirstDamage}
-                          onPending={() => <div class="evolution-loading"><PokeballLoading cssClass="evolution-loading-override" /></div>}
-                          onResolved={(item) => {
-                            return (
-                              <Weakness item={item}/>
-                            )
-                          }}
-                        />
+                        <Weakness item={item.damage}/>
                       </section>
                       <section>
                         <p class="pokemon_main-desc">BASE EXP</p>
