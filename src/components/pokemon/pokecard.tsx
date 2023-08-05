@@ -26,7 +26,7 @@ export default component$(({name, url, number}: Pokemon) => {
     const signal = track(() => url)
     const data = await fetch(signal);
     const sprite = await data.json();
-    return ({sprites: sprite?.sprites?.versions?.["generation-v"]?.["black-white"]?.animated?.front_default, types: sprite.types})
+    return ({sprites: sprite?.sprites?.front_default, types: sprite.types})
   })
 
   return (
