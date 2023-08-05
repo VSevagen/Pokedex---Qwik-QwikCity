@@ -198,7 +198,6 @@ export const sprite_container = style({
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
-  paddingBottom: "12px"
 })
 
 export const pokemon_index = style({
