@@ -41,8 +41,5 @@
     "vercel": "^29.1.1",
     "vite": "4.3.9",
     "vite-tsconfig-paths": "4.2.0"
-  },
-  "dependencies": {
-    "@googlemaps/js-api-loader": "^1.16.2"
   }
 }
