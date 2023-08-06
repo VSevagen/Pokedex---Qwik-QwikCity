@@ -1,4 +1,11 @@
-import { component$, useResource$, Resource, useStylesScoped$, Signal } from "@builder.io/qwik";
+import {
+  component$,
+  useResource$,
+  Resource,
+  useStylesScoped$,
+  Signal
+} from "@builder.io/qwik";
+import { isMobile, scrollToElement } from "./searchbar";
 import {
         sprite_container,
         pokemon_index,
@@ -33,7 +40,11 @@ export default component$(({name, url, number, initialPokemon}: Pokemon) => {
   return (
     <div
       class="pokecard"
-      onClick$={() => {
+      onClick$={async () => {
+        if(await isMobile()) {
+          const pokecard = document?.getElementsByClassName('pokemon_main')?.[0];
+          scrollToElement(pokecard);
+        }
         initialPokemon.value = number + 1;
       }}
     >
